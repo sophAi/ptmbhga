@@ -1,0 +1,19 @@
+Version History :
+2007/03/22 V 3.0 Fix minor bugs
+2007/03/08 V 2.9 Fix GA Geometry operator bug
+2004/9/10  V 2.8 Q-SC Force-Field potential and analytic gradient work properly!
+2003/12/30 V 2.7 Add Berg's weighting factor for MBH parameters!
+2003/12/14 V 2.6 Pure BH and MBH work properly!Add BH data of each steps on screen!
+2003/11/10 V 2.5 EAM function and analytic gradient work properly!
+2003/6/21  V 2.4 Modify Alloy GA operator,more efficient!
+2003/6/6   V 2.2 Add acceptance ratio limitation
+2003/5/30  v 2.0 Add Parallel GA,MBH recover and pdb output for gp
+2003/4/30  v 1.5 Add Annealing function and auto-historgram range
+2003/3/31  v 1.4 Add Multi-Canonical BH quenching function
+2003/2/25  v 1.3 Add variate parallel tempering function 
+2003/2/14  v 1.2 Add new function,variate RMS
+2003/2/10  V 1.1 Debug for large particles,test OK for N>600
+2003/1/28  V 1.0 Parallel Tempering Multi-Canonical Basin-Hopping with Genetic Operator
+2002/11/18 V 8.3 Add the sloppy criterion for the RMS force!
+2002/7/10  V 8.2 Alloy function and analytic gradient work properly!
+2002/6/25  V 8.0 Gupta potential program code optimizing,faster!

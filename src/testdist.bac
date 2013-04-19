@@ -1,0 +1,66 @@
+       program testdist
+       integer i,j,atom_num1,atom_num2
+       real*8 k1,x1(3000),y1(3000),z1(3000),dist1
+       real*8 energy1,R01,ratio1,avdist1
+       real*8 k2,x2(3000),y2(3000),z2(3000),dist2
+       real*8 energy2,R02,ratio2,avdist2
+       character name_xyz1,name_xyz2,atom1,atom2
+       k1=0.D0
+       k2=0.D0
+       avdist1=0.D0
+       avdist2=0.D0
+       write(*,*) "Please input the file name of cluster #1:(*.xyz)"
+       read(*,*) name_xyz1
+       write(*,*) "please input R0 of cluster #1"
+       read(*,*) R01
+       write(*,*) "Please input the ratio of cluster #1(default=1.5D0)"
+       read(*,*) ratio1
+       write(*,*) "Please input the file name of cluster #2:(*.xyz)"
+       read(*,*) name_xyz2
+       write(*,*) "please input R0 of cluster #2"
+       read(*,*) R02
+       write(*,*) "Please input the ratio of cluster #2(default=1.5D0)"
+       read(*,*) ratio2
+       open(1,file=name_xyz1,status="old")
+       read(1,*) atom_num1,energy1
+       open(2,file=name_xyz2,status="old")
+       read(2,*) atom_num2,energy2
+       do i=1,atom_num1 
+          read(1,*) atom1,x1(i),y1(i),z1(i)
+       enddo
+       do i=1,atom_num2
+          read(2,*) atom2,x2(i),y2(i),z2(i)
+       enddo
+       do i=1,atom_num1
+         do j=i+1,atom_num1
+           dist1=(x1(i)-x1(j))**2+(y1(i)-y1(j))**2+(z1(i)-z1(j))**2
+           dist1=dsqrt(dist1) 
+           if(dist1.le.(ratio1*R01))then
+             avdist1=avdist1+dist1
+             k1=k1+1.D0
+           endif
+         enddo
+       enddo
+       do i=1,atom_num2
+         do j=i+1,atom_num2
+           dist2=(x2(i)-x2(j))**2+(y2(i)-y2(j))**2+(z2(i)-z2(j))**2
+           dist2=dsqrt(dist2)
+           if(dist2.le.(ratio2*R02))then
+             avdist2=avdist2+dist2
+             k2=k2+1.D0
+           endif
+         enddo
+       enddo
+       avdist1=avdist1/k1
+       avdist2=avdist2/k2
+       write(*,*) "The average distance of ",name_xyz1," is ",avdist1
+       write(*,*) "The average distance of ",name_xyz2," is ",avdist2
+       write(*,*) "Energy of ",name_xyz1,"=",energy1,
+     &",Energy of ",name_xyz2,"=",energy2
+       write(*,*) "The nearest neighbor distance ratio between #1 & #2:"
+       write(*,*) name_xyz1," / ",name_xyz2," = ",avdist1/avdist2
+       write(*,*) name_xyz2," / ",name_xyz1," = ",avdist2/avdist1
+       close(1)
+       close(2)
+       stop
+       end

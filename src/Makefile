@@ -1,0 +1,53 @@
+#PROG =	a.out
+PROG =  sse.out
+#SRCS = chima.f chimafunc.f mutation.f step_move.f oh_bond.f protein_io.f gp_io.f protfunc.f lj.f dih.f bond.f adfuncgp.f tran.f dprand.f potential.f gp.f Galloop.f lbfgs.f bmin.f mpi_gen.f useseed.f ndfunc.f simplex_min.f eulerangles.f rnd.f ran.f mnbrak.f amoeba.f dbrent.f linmin.f df1dim.f f1dim.f startend.f frprmn.f  alloyfun.f  alloy.f gpfun.f centre.f
+
+
+OBJS = qscff.o qscff_io.o qscfffun.o eularangles_tran.o dim_gen.o chima.o chimafunc.o mutation.o step_move.o recursion.o min.o move.o oh_gen.o dih_gen.o oh_bond.o pdb.o chima3n_io.o chiman_io.o protfunc_oh.o lj.o bond.o dih.o ndfuncm.o Gamma.o protein_io.o gp_io.o file_io.o protfunc.o adfuncgp.o tran.o dprand.o potential.o gp.o Galloop.o lbfgs.o bmin.o mpi_gen.o useseed.o ndfunc.o simplex_min.o eularangles.o rnd.o ran.o mnbrak.o amoeba.o dbrent.o linmin.o df1dim.o f1dim.o startend.o frprmn.o alloyfun.o alloy.o gpfun.o centre.o eam.o eamfun.o eam_io.o 
+
+LIBS =
+FC = mpif77
+LDFLAGS= 
+#RUNCPP = cpp -P -C
+
+#
+# DEC OSF
+#
+# FFLAGS=-fast -O5 -extend_source -tune host -arch host
+FFLAGS=-march=native -mfpmath='sse' -msse2 -ffast-math -funroll-loops -O3
+
+#FFLAGS= -r8
+#This is safe option
+#FFLAGS=-i4 -O3 -r8 -Mnoscalarsse -pc=80   
+#This is fast option with sse
+#FFLAGS=-O2 -fastsse -Mipa=fast -Minfo  #recommend -O2
+#This is aggressive option with sse
+#FFLAGS=-O3 -fastsse -Mipa=fast -Minfo -r8 -i4 -tp=amd64 -Mflushz -Munroll
+# g77 pentium
+#
+#  FFLAGS=-O6 -ffixed-line-length-132 \
+   -fno-f2c -fautomatic -fforce-mem -ffast-math \
+          -fstrength-reduce -fexpensive-optimizations -fcaller-saves \
+          -funroll-loops -finline-functions -mcpu=pentium -march=pentium
+#
+# Sun Ultra
+# FFLAGS = -e -fast -xO5 -xdepend -xchip=ultra -xarch=v8plus -xsafe=mem 
+
+#
+# SGI flags
+# RUNCPP = /usr/lib/cpp -P -C
+# # FFLAGS= -Ofast=ip22_5k -n32 -extend_source -OPT:roundoff=0 -mips4
+# # LDFLAGS= -Ofast=ip22_5k -n32 -extend_source -OPT:roundoff=0 -mips4
+# FFLAGS=  -O3 -n32 -extend_source -OPT:roundoff=0:Olimit=0:div_split==ON:alias=typed -mips4 -TARG:platform=ip22_5k -G 0 
+# LDFLAGS= -O3 -n32 -extend_source -OPT:roundoff=0:Olimit=0:div_split==ON:alias=typed -mips4 -TARG:platform=ip22_5k -G 0 
+
+all: $(PROG)
+
+$(PROG): $(OBJS) $(EXTRAS)
+	$(FC) $(FFLAGS) -o $@ $(OBJS) $(EXTRAS) $(LIBS) 
+
+
+
+clean:
+	rm -f *.o
+
